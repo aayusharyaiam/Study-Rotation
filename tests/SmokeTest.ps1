@@ -56,6 +56,10 @@ try {
     ) | Out-Null
     Assert-True ($parseErrors.Count -eq 0) 'StudyRotation.ps1 has PowerShell parse errors.'
 
+    $appSource = Get-Content -LiteralPath $script:AppScript -Raw
+    Assert-True ($appSource -match '\[int\]\$MinSwitchSeconds = 5') 'Default minimum switch interval is not 5 seconds.'
+    Assert-True ($appSource -match '\[int\]\$MaxSwitchSeconds = 10') 'Default maximum switch interval is not 10 seconds.'
+
     Write-Output 'Running a short rotation in dry-run mode...'
     $directState = Join-Path $tempRoot 'direct-state'
     Invoke-AppProcess @(
@@ -120,6 +124,7 @@ try {
 
         $notepadLog = Get-Content -LiteralPath (Join-Path $notepadState 'activity.log') -Raw
         Assert-True ($notepadLog -match 'Opening .*\.txt') 'Notepad test has no open event.'
+        Assert-True ($notepadLog -match 'Maximized the Notepad window') 'Notepad test did not verify a maximized window.'
         Assert-True ($notepadLog -match 'Closing .*\.txt') 'Notepad test has no close event.'
         Assert-True ($notepadLog -notmatch '\[(WARN|ERROR)\]') 'Notepad integration logged a warning or error.'
     }
