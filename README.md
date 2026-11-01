@@ -5,9 +5,9 @@ A small, user-controlled Windows utility that rotates through computer-science s
 While enabled, it:
 
 1. Selects a random `.txt` study file.
-2. Opens the file in Notepad and brings it to the screen.
+2. Opens the file in Notepad, maximizes it, and brings it to the screen.
 3. Keeps it open for a random **5–10 minutes**.
-4. Sends **Alt+Tab every 30–40 seconds**.
+4. Sends **Alt+Tab every 5–10 seconds**.
 5. Closes only the Notepad window it opened, then selects another file.
 6. Continues until the user runs the Stop launcher.
 
