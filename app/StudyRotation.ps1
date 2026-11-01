@@ -13,10 +13,10 @@ param(
     [int]$MaxDisplaySeconds = 600,
 
     [ValidateRange(1, 3600)]
-    [int]$MinSwitchSeconds = 30,
+    [int]$MinSwitchSeconds = 5,
 
     [ValidateRange(1, 3600)]
-    [int]$MaxSwitchSeconds = 40,
+    [int]$MaxSwitchSeconds = 10,
 
     [ValidateRange(0, 10000)]
     [int]$MaxFiles = 0,
@@ -205,6 +205,9 @@ public static class StudyRotationNative
     public static extern bool IsWindow(IntPtr hWnd);
 
     [DllImport("user32.dll")]
+    public static extern bool IsZoomed(IntPtr hWnd);
+
+    [DllImport("user32.dll")]
     public static extern bool SetForegroundWindow(IntPtr hWnd);
 
     [DllImport("user32.dll")]
@@ -241,7 +244,7 @@ public static class StudyRotationNative
     public static void ActivateWindow(IntPtr window)
     {
         if (window == IntPtr.Zero) return;
-        ShowWindow(window, 9); // SW_RESTORE
+        ShowWindow(window, 3); // SW_MAXIMIZE
         SetForegroundWindow(window);
     }
 
@@ -305,6 +308,16 @@ function Open-StudyFile {
 
     if ($handle -ne [IntPtr]::Zero) {
         [StudyRotationNative]::ActivateWindow($handle)
+        $maximizeDeadline = (Get-Date).AddSeconds(2)
+        while ((Get-Date) -lt $maximizeDeadline -and -not [StudyRotationNative]::IsZoomed($handle)) {
+            Start-Sleep -Milliseconds 100
+        }
+        if ([StudyRotationNative]::IsZoomed($handle)) {
+            Write-ActivityLog "Maximized the Notepad window for '$($File.Name)'."
+        }
+        else {
+            Write-ActivityLog "Could not verify that the Notepad window for '$($File.Name)' was maximized." 'WARN'
+        }
     }
     else {
         Write-ActivityLog "Could not identify the Notepad window for '$($File.Name)'; it was still opened." 'WARN'
