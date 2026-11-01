@@ -1,0 +1,36 @@
+LRU CACHE — PYTHON STANDARD LIBRARY
+===================================
+
+from collections import OrderedDict
+
+class LRUCache:
+    def __init__(self, capacity):
+        if capacity <= 0:
+            raise ValueError("capacity must be positive")
+        self.capacity = capacity
+        self.items = OrderedDict()
+
+    def get(self, key):
+        if key not in self.items:
+            return -1
+        self.items.move_to_end(key)  # Most recently used
+        return self.items[key]
+
+    def put(self, key, value):
+        if key in self.items:
+            self.items.move_to_end(key)
+        self.items[key] = value
+
+        if len(self.items) > self.capacity:
+            self.items.popitem(last=False)  # Evict least recent
+
+
+cache = LRUCache(2)
+cache.put("A", 10)
+cache.put("B", 20)
+assert cache.get("A") == 10
+cache.put("C", 30)              # Evicts B
+assert cache.get("B") == -1
+
+Interview implementation: hash map + doubly linked list.
+Both get and put are O(1); storage is O(capacity).

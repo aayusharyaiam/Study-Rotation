@@ -1,0 +1,33 @@
+0/1 KNAPSACK — C++ (SPACE-OPTIMIZED DP)
+=======================================
+
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+int knapsack(const vector<int>& weight,
+             const vector<int>& value,
+             int capacity) {
+    vector<int> best(capacity + 1, 0);
+
+    for (int item = 0; item < static_cast<int>(weight.size()); ++item) {
+        // Iterate backward so each item is used at most once.
+        for (int remaining = capacity;
+             remaining >= weight[item];
+             --remaining) {
+            best[remaining] = max(
+                best[remaining],
+                best[remaining - weight[item]] + value[item]
+            );
+        }
+    }
+    return best[capacity];
+}
+
+// weight = {2, 3, 4, 5}, value = {3, 4, 5, 6}, capacity = 5
+// Optimal value is 7: choose weights 2 and 3.
+
+// State: best[c] is the maximum value achievable within capacity c.
+// Time: O(number_of_items * capacity)
+// Space: O(capacity)
+// For unbounded knapsack, iterate capacity forward instead.

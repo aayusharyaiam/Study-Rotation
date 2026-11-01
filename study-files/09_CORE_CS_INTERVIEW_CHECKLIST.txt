@@ -1,0 +1,35 @@
+CORE CS INTERVIEW CHECKLIST
+===========================
+
+DATA STRUCTURES
+[ ] Array/string: two pointers, sliding window, prefix sum
+[ ] Hash table: collisions, load factor, average vs worst case
+[ ] Stack/queue/deque: monotonic stack and BFS
+[ ] Linked list: dummy node, fast/slow pointers, reversal
+[ ] Tree: DFS traversals, BFS, BST invariant, trie
+[ ] Heap: top-k and streaming minimum/maximum
+[ ] Graph: adjacency list, BFS/DFS, shortest path, union-find
+
+SYSTEMS
+[ ] Process vs thread; race condition, mutex, semaphore, deadlock
+[ ] Stack vs heap memory; virtual memory and paging
+[ ] TCP vs UDP; DNS, TLS, HTTP methods/status codes
+[ ] Cache locality, consistency, replication, partitioning
+
+DATABASES
+[ ] Primary/foreign key, index, normalization
+[ ] ACID transactions and isolation levels
+[ ] JOIN types and GROUP BY/HAVING
+[ ] B-tree index tradeoffs and query plans
+
+BEHAVIORAL ANSWERS
+Use STAR: Situation, Task, Action, Result.
+Explain your own contribution, tradeoffs considered, measurable outcome,
+and what you would improve next time.
+
+BEFORE FINISHING A CODING PROBLEM
+[ ] Walk through a concrete example.
+[ ] Check null/empty input and boundary indices.
+[ ] State time and space complexity.
+[ ] Ask whether mutation is allowed.
+[ ] Remove debug output and clarify names.

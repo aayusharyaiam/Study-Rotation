@@ -1,0 +1,30 @@
+BINARY SEARCH — PYTHON
+======================
+
+Problem: Return the index of target in a sorted list, or -1.
+
+def binary_search(values, target):
+    left, right = 0, len(values) - 1
+
+    while left <= right:
+        middle = left + (right - left) // 2
+
+        if values[middle] == target:
+            return middle
+        if values[middle] < target:
+            left = middle + 1
+        else:
+            right = middle - 1
+
+    return -1
+
+
+# Example
+numbers = [2, 5, 8, 12, 16, 23, 38]
+assert binary_search(numbers, 16) == 4
+assert binary_search(numbers, 7) == -1
+
+Invariant: If target exists, it remains inside [left, right].
+Time: O(log n) | Extra space: O(1)
+
+Common bug: using "left < right" and forgetting to check the final element.

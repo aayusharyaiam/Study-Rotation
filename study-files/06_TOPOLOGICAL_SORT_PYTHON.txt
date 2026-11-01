@@ -1,0 +1,39 @@
+TOPOLOGICAL SORT (KAHN'S ALGORITHM) — PYTHON
+=============================================
+
+from collections import deque
+
+def topological_sort(graph):
+    """graph maps each node to the nodes that depend on it."""
+    indegree = {node: 0 for node in graph}
+    for node in graph:
+        for neighbor in graph[node]:
+            indegree[neighbor] += 1
+
+    ready = deque(node for node in graph if indegree[node] == 0)
+    order = []
+
+    while ready:
+        node = ready.popleft()
+        order.append(node)
+
+        for neighbor in graph[node]:
+            indegree[neighbor] -= 1
+            if indegree[neighbor] == 0:
+                ready.append(neighbor)
+
+    if len(order) != len(graph):
+        raise ValueError("graph contains a directed cycle")
+    return order
+
+
+courses = {
+    "Programming": ["Algorithms", "Databases"],
+    "Discrete Math": ["Algorithms"],
+    "Algorithms": [],
+    "Databases": [],
+}
+print(topological_sort(courses))
+
+Only directed acyclic graphs have a topological ordering.
+Time: O(V + E) | Space: O(V)

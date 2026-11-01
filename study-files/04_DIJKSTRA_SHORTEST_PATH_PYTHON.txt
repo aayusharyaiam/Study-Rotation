@@ -1,0 +1,38 @@
+DIJKSTRA'S SHORTEST PATH — PYTHON
+=================================
+
+from heapq import heappop, heappush
+from math import inf
+
+def dijkstra(graph, source):
+    """graph[u] contains (neighbor, non_negative_weight) pairs."""
+    distance = {node: inf for node in graph}
+    distance[source] = 0
+    heap = [(0, source)]
+
+    while heap:
+        current_distance, node = heappop(heap)
+
+        # Ignore an old heap entry superseded by a shorter path.
+        if current_distance != distance[node]:
+            continue
+
+        for neighbor, weight in graph[node]:
+            candidate = current_distance + weight
+            if candidate < distance[neighbor]:
+                distance[neighbor] = candidate
+                heappush(heap, (candidate, neighbor))
+
+    return distance
+
+
+graph = {
+    "A": [("B", 4), ("C", 1)],
+    "B": [("D", 1)],
+    "C": [("B", 2), ("D", 5)],
+    "D": [],
+}
+print(dijkstra(graph, "A"))  # A:0, C:1, B:3, D:4
+
+Requirement: edge weights must be non-negative.
+Time: O((V + E) log V) with a binary heap and adjacency list.

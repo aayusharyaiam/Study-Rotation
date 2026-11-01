@@ -1,0 +1,36 @@
+BREADTH-FIRST SEARCH — C++
+==========================
+
+#include <iostream>
+#include <queue>
+#include <vector>
+using namespace std;
+
+vector<int> bfs(const vector<vector<int>>& graph, int start) {
+    vector<int> order;
+    vector<bool> visited(graph.size(), false);
+    queue<int> frontier;
+
+    visited[start] = true;       // Mark when enqueued, not when removed.
+    frontier.push(start);
+
+    while (!frontier.empty()) {
+        int node = frontier.front();
+        frontier.pop();
+        order.push_back(node);
+
+        for (int next : graph[node]) {
+            if (!visited[next]) {
+                visited[next] = true;
+                frontier.push(next);
+            }
+        }
+    }
+    return order;
+}
+
+// For an unweighted graph, BFS discovers vertices in increasing distance
+// from the start. Track parent[next] = node to reconstruct shortest paths.
+
+// Time: O(V + E) with an adjacency list
+// Space: O(V)
