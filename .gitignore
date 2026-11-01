@@ -1,0 +1,8 @@
+# Runtime state and local test output
+.study-rotation-state/
+tests/tmp/
+*.log
+
+# Windows metadata
+Thumbs.db
+Desktop.ini
